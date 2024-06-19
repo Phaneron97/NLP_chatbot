@@ -8,18 +8,18 @@ class Chatbot:
         self.vectordb = VectorDB()
 
     def preprocess_query(self, query):
-        return query.lower()
+        return query.lower()    
 
     def generate_response(self, query):
         preprocessed_query = self.preprocess_query(query)
-        print(preprocessed_query)
+        print(f"Preprocessed Query: {preprocessed_query}")  # Debug: Print preprocessed query
         query_vector = self.embedding.embed_text([preprocessed_query])[0]
-        print(query_vector)
+        print(f"Query Vector: {query_vector[:5]}...")  # Debug: Print a snippet of the query vector
         results = self.vectordb.search(query_vector)
-        print(results)
+        print(f"Search Results: {results}")  # Debug: Print search results
         response, source = self.format_response(results)
-        print(response)
-        print(source)
+        print(f"Response: {response}")  # Debug: Print response
+        print(f"Source: {source}")  # Debug: Print source
         return response, source
 
     def format_response(self, results):

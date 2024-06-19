@@ -3,8 +3,6 @@ from chatbot import Chatbot
 from preprocessing import extract_text_from_pdf, preprocess_pdf_text, scan_data_directory
 import os
 
-# Cache to store processed PDFs
-@st.cache_resource
 def get_cached_data():
     return {}
 
