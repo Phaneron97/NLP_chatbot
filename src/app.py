@@ -13,9 +13,10 @@ def main():
     raw_text = extract_text_from_pdf(pdf_path)
     sections = preprocess_pdf_text(raw_text)
 
-    for section, content in sections.items():
-        vector = chatbot.embedding.embed_text([content])[0]
-        chatbot.vectordb.add_item(section, vector)
+    for section, chunks in sections.items():
+        for chunk in chunks:
+            vector = chatbot.embedding.embed_text([chunk])[0]
+            chatbot.vectordb.add_item(f"{section}: {chunk[:100]}", vector)
 
     user_input = st.text_input("You: ", key="input")
 

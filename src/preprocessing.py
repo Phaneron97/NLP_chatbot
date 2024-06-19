@@ -8,14 +8,29 @@ def extract_text_from_pdf(pdf_path):
             text += page.extract_text()
     return text
 
-def preprocess_pdf_text(text):
+def preprocess_pdf_text(text, chunk_size=10):
     sections = {}
     current_section = None
-    for line in text.split('\n'):
+    lines = text.split('\n')
+    chunk = []
+    
+    for line in lines:
         line = line.strip()
         if line.isupper():  # Assuming section headers are in uppercase
+            if current_section and chunk:
+                sections[current_section].append(" ".join(chunk))
+                chunk = []
             current_section = line
-            sections[current_section] = []
+            if current_section not in sections:
+                sections[current_section] = []
         elif current_section:
-            sections[current_section].append(line)
-    return {section: " ".join(content) for section, content in sections.items()}
+            chunk.append(line)
+            if len(chunk) >= chunk_size:
+                sections[current_section].append(" ".join(chunk))
+                chunk = []
+    
+    # Add any remaining chunk to the last section
+    if current_section and chunk:
+        sections[current_section].append(" ".join(chunk))
+    
+    return sections
