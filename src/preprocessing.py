@@ -17,6 +17,7 @@ def preprocess_pdf_text(text):
     page = None
     
     for line in text.split('\n'):
+        print(line)
         line = line.strip()
         if line.startswith('--- Page'):
             page = line
@@ -41,13 +42,14 @@ def preprocess_pdf_text(text):
     # Add any remaining paragraph to the last section
     if current_section and paragraph:
         sections[current_section] += f" {paragraph} (Source: {page})"
-    
+        print(sections)
     return sections
 
-def scan_data_directory(data_dir):
+def scan_data_directory(directory):
     pdf_files = []
-    for root, _, files in os.walk(data_dir):
+    for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.lower().endswith('.pdf'):
+            if file.endswith(".pdf"):
                 pdf_files.append(os.path.join(root, file))
+    print(pdf_files)
     return pdf_files
