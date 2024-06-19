@@ -24,3 +24,7 @@ This project involves creating a chatbot using Streamlit and Ollama that can ans
    python -m venv .venv
    source .venv/bin/activate # Windows: .venv\Scripts\activate
    pip install -r requirements.txt
+
+2. Run the application
+   ```bash
+   streamlit run src/app.py
