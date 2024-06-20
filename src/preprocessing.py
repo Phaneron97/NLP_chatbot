@@ -1,6 +1,9 @@
 import PyPDF2
 
 def extract_text_from_pdf(pdf_path):
+    """
+    Extracts text from a PDF file.
+    """
     text = ""
     with open(pdf_path, "rb") as file:
         reader = PyPDF2.PdfReader(file)
@@ -9,6 +12,9 @@ def extract_text_from_pdf(pdf_path):
     return text
 
 def preprocess_pdf_text(text):
+    """
+    Preprocesses the extracted text by dividing it into sections based on uppercase section headers.
+    """
     sections = {}
     current_section = None
     for line in text.split('\n'):
