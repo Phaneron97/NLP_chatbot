@@ -1,41 +1,23 @@
-import ollama
-from vectordb import VectorDB
+import numpy as np
 from embedding import Embedding
+from vectordb import VectorDB
 
 class Chatbot:
     def __init__(self):
         self.embedding = Embedding()
         self.vectordb = VectorDB()
-        self.max_length = 1000  # Set a maximum length for the response
 
-    def preprocess_query(self, query):
-        return query.lower()
-
-    def generate_response(self, query):
-        preprocessed_query = self.preprocess_query(query)
-        query_vector = self.embedding.embed_text([preprocessed_query])[0]
-        results = self.vectordb.search(query_vector)
-        response, source = self.format_response(results)
-        return response, source
-
-    def format_response(self, results):
-        if not results:
-            return "I'm sorry, I couldn't find the information you're looking for.", ""
+    def generate_response(self, user_input):
+        query_vector = self.embedding.embed_text([user_input])[0]
+        search_result = self.vectordb.search(query_vector)
+        print(search_result)
         
-        response = results[0][0]  # Get the most relevant section
-        source = results[0][1]  # Get the source information
-        if len(response) > self.max_length:
-            response = self.trim_response(response, self.max_length)
+        if search_result is not None:
+            best_match, source_section, source_file = search_result
+            response = f"{best_match}"
+            source = f"{source_section}, from file: {source_file}"
+        else:
+            response = "I'm sorry, I couldn't find any relevant information."
+            source = "No source available."
         
         return response, source
-
-    def trim_response(self, response, max_length):
-        if len(response) <= max_length:
-            return response
-        
-        trimmed_response = response[:max_length]
-        last_period_index = trimmed_response.rfind('. ')
-        if last_period_index != -1:
-            return trimmed_response[:last_period_index + 1]
-        
-        return trimmed_response  # Fallback to returning the trimmed response as is
