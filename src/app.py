@@ -17,18 +17,18 @@ def scan_data_directory(root_dir):
     return structure
 
 def select_language(structure):
-    return st.selectbox("Select Language", [k for k in structure.keys() if k != '_files'])
+    return st.selectbox("Select Language", ["please select your language"] + [k for k in structure.keys() if k != '_files'])
 
 def select_part(structure, language):
-    return st.selectbox("Select Part", [k for k in structure[language].keys() if k != '_files'])
+    return st.selectbox("Select Part", ["please select your part"] + [k for k in structure[language].keys() if k != '_files'])
 
 def select_year(structure, language, part):
-    return st.selectbox("Select Year", [k for k in structure[language][part].keys() if k != '_files'])
+    return st.selectbox("Select Year", ["please select your year"] + [k for k in structure[language][part].keys() if k != '_files'])
 
 def select_file(structure, language, part, year):
     files = structure[language][part][year].get('_files', [])
     if files:
-        return st.selectbox("Select File", files)
+        return st.selectbox("Select File", ["please select your file"] + files)
     return None
 
 def process_file(chatbot, data_dir, language, part, year, selected_file):
@@ -53,33 +53,33 @@ def main():
     
     language = select_language(structure)
     
-    if language:
+    if language and language != "please select your language":
         part = select_part(structure, language)
         
-        if part:
+        if part and part != "please select your part":
             year = select_year(structure, language, part)
             
-            if year:
+            if year and year != "please select your year":
                 selected_file = select_file(structure, language, part, year)
                 
-                if selected_file:
+                if selected_file and selected_file != "please select your file":
                     process_file(chatbot, data_dir, language, part, year, selected_file)
                     st.success(f"Processed file: {selected_file}")
 
-    user_input = st.text_input("You: ", key="input")
+                    user_input = st.text_input("You: ", key="input")
 
-    if st.button("Send") and user_input:
-        if chatbot:
-            response, source = chatbot.generate_response(user_input)
-            st.session_state['responses'].append((user_input, response, source))
-        else:
-            st.error("No data available in the vector database. Please select and process a file first.")
+                    if st.button("Send") and user_input:
+                        if chatbot:
+                            response, source = chatbot.generate_response(user_input)
+                            st.session_state['responses'].append((user_input, response, source))
+                        else:
+                            st.error("No data available in the vector database. Please select and process a file first.")
 
-    if st.session_state['responses']:
-        for user, bot, source in st.session_state['responses']:
-            st.write(f"You: {user}")
-            st.write(f"Bot: {bot}")
-            st.write(f"Source: {source}")
+                    if st.session_state['responses']:
+                        for user, bot, source in st.session_state['responses']:
+                            st.write(f"You: {user}")
+                            st.write(f"Bot: {bot}")
+                            st.write(f"Source: {source}")
 
 if __name__ == "__main__":
     main()
