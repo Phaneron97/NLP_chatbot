@@ -36,6 +36,7 @@ The project runs locally using streamlit which handles the frontend on your defa
 - `chatbot.py`: Contains the Chatbot class for generating responses.
    - `__init__()`: Loads a chatbot with a model and a vectorDB.
    - `generate_response()`: Generates the response based on the vector similarity.
+   - `truncate_response()`: Truncates the chatbots output to a maximum length (in this case 1000 character) without cutting off the last sentence.
 - `app.py`: Contains the Streamlit app interface.
    - `scan_data_directory()`: Scans the given root directory and constructs a nested dictionary representing the file structure.
    - `select_language()`: Displays a dropdown for selecting the language.
