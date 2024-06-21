@@ -1,6 +1,6 @@
 # NLP Chatbot
 
-group: De Kaaseters
+group: De Kaaseters <br>
 delivery date: 21-06-2024
 Members:
 - Christian Wanschers (632748)
