@@ -1,7 +1,7 @@
 # NLP Chatbot
 
 group: De Kaaseters <br>
-delivery date: 21-06-2024
+delivery date: 21-06-2024 <br>
 Members:
 - Christian Wanschers (632748)
 - Bastiaan Verheul (667382)
