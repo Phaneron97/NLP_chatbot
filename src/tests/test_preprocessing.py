@@ -12,7 +12,7 @@ class TestPreprocessing(unittest.TestCase):
         mock_pdf_reader.return_value.pages = [MagicMock(extract_text=lambda: "Page 1 text"), MagicMock(extract_text=lambda: "Page 2 text")]
 
         # Dummy path for testing
-        pdf_path = "C:/Users/ninow/Documents/GitHub/NLP_chatbot/data"
+        pdf_path = "../../data"
         result = extract_text_from_pdf(pdf_path)
         
         self.assertEqual(result, "Page 1 textPage 2 text")
