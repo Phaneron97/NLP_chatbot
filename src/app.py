@@ -88,7 +88,7 @@ def main():
     if 'responses' not in st.session_state:
         st.session_state['responses'] = []
 
-    data_dir = "../data"
+    data_dir = "data"
     structure = scan_data_directory(data_dir)
     
     # Select language
